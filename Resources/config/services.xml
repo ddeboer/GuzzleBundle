@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="guzzle.service_builder.class">Guzzle\Service\ServiceBuilder</parameter>
+        <parameter key="guzzle.service_builder_factory.class">Ddeboer\GuzzleBundle\ServiceBuilderFactory</parameter>
+        <parameter key="guzzle.cache_adapter.class"></parameter>
+        <parameter key="guzzle.cache.adapter.doctrine.class">Guzzle\Common\Cache\DoctrineCacheAdapter</parameter>
+        <parameter key="guzzle.cache.adapter.zend.class">Guzzle\Common\Cache\ZendCacheAdapter</parameter>
+        <parameter key="guzzle.cache.driver.apc.class">Doctrine\Common\Cache\ApcCache</parameter>
+        <parameter key="guzzle.cache.driver.array.class">Doctrine\Common\Cache\ArrayCache</parameter>
+    </parameters>
+
+    <services>
+        <service id="guzzle.service_builder" class="%guzzle.service_builder.class%" factory-class="%guzzle.service_builder.class%" factory-method="factory">
+            <argument type="string" id="guzzle.service_builder.configuration_file">%guzzle.service_builder.configuration_file%</argument>
+            <argument type="service" id="guzzle.cache.adapter" on-invalid="ignore" />
+        </service>
+    </services>
+
+</container>
