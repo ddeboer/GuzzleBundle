@@ -14,12 +14,13 @@ Install GuzzleBundle:
     git submodule add git://github.com/ddeboer/GuzzleBundle vendor/bundles/Ddeboer/GuzzleBundle
 
 ## Autoloader
-Add the Guzzle namespace to your autoloader:
+Add Guzzle and Ddeboer namespace to your autoloader:
 
     // app/autoload.php
     $loader->registerNamespaces(array(
 		// ...
 		'Guzzle'           => __DIR__.'/../vendor/guzzle/src',
+		'Ddeboer'          => __DIR__.'/../vendor/bundles',
 		// ...
 	));
     
@@ -38,11 +39,11 @@ Add GuzzleBundle to your application kernel:
 
 	// app/config/config.yml
 	ddeboer_guzzle: 
-	  service_builder:
-		configuration_file: "%kernel.root_dir%/config/webservices.xml"
-	 	cache: 
-	      adapter: doctrine
-		  driver: apc
+    service_builder:
+      configuration_file: "%kernel.root_dir%/config/webservices.xml"
+      cache: 
+        adapter: doctrine
+        driver: apc
 
 And add a Guzzle services configuration file. See the [Guzzle documentation](http://guzzlephp.org/docs/tour/using_services/#describe-clients-using-your-services-xml-file).
 	
