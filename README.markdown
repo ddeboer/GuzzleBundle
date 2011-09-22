@@ -14,12 +14,13 @@ Install GuzzleBundle:
     git submodule add git://github.com/ddeboer/GuzzleBundle vendor/bundles/Ddeboer/GuzzleBundle
 
 ## Autoloader
-Add the Guzzle namespace to your autoloader:
+Add Guzzle and Ddeboer namespace to your autoloader:
 
     // app/autoload.php
     $loader->registerNamespaces(array(
 		// ...
 		'Guzzle'           => __DIR__.'/../vendor/guzzle/src',
+		'Ddeboer'          => __DIR__.'/../vendor/bundles',
 		// ...
 	));
     
