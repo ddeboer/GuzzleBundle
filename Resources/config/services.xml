@@ -25,7 +25,6 @@
     <services>
         <service id="guzzle.service_builder" class="%guzzle.service_builder.class%" factory-class="%guzzle.service_builder_factory.class%" factory-method="factory">
             <argument type="string" id="guzzle.service_builder.configuration_file">%guzzle.service_builder.configuration_file%</argument>
-            <argument type="service" id="guzzle.cache.adapter" on-invalid="ignore" />
 
             <call method="addSubscriber">
                 <argument type="service" id="guzzle.plugin.service_builder" />

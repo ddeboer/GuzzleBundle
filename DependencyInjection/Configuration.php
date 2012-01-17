@@ -22,7 +22,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $builder = new TreeBuilder();
-        
+
         $builder
             ->root('guzzle')
                 ->children()
@@ -34,18 +34,12 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('configuration_file')
                                 ->defaultValue('%kernel.root_dir%/config/webservices.xml')
                             ->end()
-                            ->arrayNode('cache')
-                                ->children()
-                                    ->scalarNode('adapter')->end()
-                                    ->scalarNode('driver')->end()
-                                ->end()
-                            ->end()
                         ->end()
                     ->end()
                     ->booleanNode('logging')->defaultValue($this->debug)->end()
                 ->end()
             ->end();
-        
-        return $builder;                    
+
+        return $builder;
     }
 }
