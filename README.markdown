@@ -37,13 +37,13 @@ Add GuzzleBundle to your application kernel:
 	
 ## Configure the Guzzle service builder
 
-	// app/config/config.yml
-	ddeboer_guzzle: 
-    service_builder:
-      configuration_file: "%kernel.root_dir%/config/webservices.xml"
-      cache: 
-        adapter: doctrine
-        driver: apc
+    // app/config/config.yml
+    ddeboer_guzzle: 
+      service_builder:
+        configuration_file: "%kernel.root_dir%/config/webservices.xml"
+        cache: 
+          adapter: doctrine
+          driver: apc
 
 And add a Guzzle services configuration file. See the [Guzzle documentation](http://guzzlephp.org/docs/tour/using_services/#describe-clients-using-your-services-xml-file).
 	
