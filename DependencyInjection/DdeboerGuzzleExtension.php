@@ -21,11 +21,17 @@ class DdeboerGuzzleExtension extends Extension
         $loader->load('services.xml');
         
         $processor = new Processor();
-        $configuration = new Configuration();
+        $configuration = new Configuration($container->getParameter('kernel.debug'));
         $config = $processor->processConfiguration($configuration, $configs);
      
         $container->setParameter('guzzle.service_builder.configuration_file',
                 $config['service_builder']['configuration_file']);
+
+        if ($config['logging']) {
+            $serviceBuilder = $container->get('guzzle.service_builder');
+
+            $container->findDefinition('guzzle.data_collector')->addTag('data_collector', array('template' => 'DdeboerGuzzleBundle:Collector:guzzle', 'id' => 'guzzle'));
+        }
 
         if (isset($config['service_builder']['cache'])) {
             $this->loadCacheAdapter($config['service_builder']['cache'], $container);
