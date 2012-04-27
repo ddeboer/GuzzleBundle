@@ -9,6 +9,8 @@ use Guzzle\Service\ServiceBuilder as BaseServiceBuilder;
 /**
  * Service builder to generate service builders and service clients from
  * configuration settings
+ *
+ * @author Gordon Franke <info@nevalon.de>
  */
 class ServiceBuilder extends BaseServiceBuilder
 {

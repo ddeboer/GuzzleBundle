@@ -9,6 +9,11 @@ use Guzzle\Http\Plugin\LogPlugin;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * DataCollectorPlugin.
+ *
+ * @author Gordon Franke <info@nevalon.de>
+ */
 class DataCollectorPlugin extends LogPlugin implements EventSubscriberInterface
 {
     private $messages = array();
