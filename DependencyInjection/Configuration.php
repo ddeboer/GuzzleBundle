@@ -7,6 +7,18 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
+    private $debug;
+
+    /**
+     * Constructor.
+     *
+     * @param Boolean $debug The kernel.debug value
+     */
+    public function __construct($debug)
+    {
+        $this->debug = (Boolean) $debug;
+    }
+
     public function getConfigTreeBuilder()
     {
         $builder = new TreeBuilder();
@@ -30,6 +42,7 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
                     ->end()
+                    ->booleanNode('logging')->defaultValue($this->debug)->end()
                 ->end()
             ->end();
         
