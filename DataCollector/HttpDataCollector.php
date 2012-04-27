@@ -45,7 +45,6 @@ class HttpDataCollector extends DataCollector
     {
         // only collect when Swiftmailer has already been initialized
         if (class_exists('Guzzle\Guzzle', false)) {
-            var_dump('guzzle request was send');
             $plugin = $this->container->get('guzzle.plugin.data_collector');
             $this->data['messages']     = $plugin->getMessages();
             $this->data['messageCount'] = $plugin->countMessages();
