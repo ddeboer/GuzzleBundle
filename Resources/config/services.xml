@@ -5,8 +5,10 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="guzzle.service_builder.class">Guzzle\Service\ServiceBuilder</parameter>
+        <parameter key="guzzle.service_builder.class">Ddeboer\GuzzleBundle\Guzzle\Service\ServiceBuilder</parameter>
         <parameter key="guzzle.service_builder_factory.class">Ddeboer\GuzzleBundle\ServiceBuilderFactory</parameter>
+        <parameter key="guzzle.data_collector.class">Ddeboer\GuzzleBundle\DataCollector\HttpDataCollector</parameter>
+        <parameter key="guzzle.plugin.data_collector.class">Ddeboer\GuzzleBundle\Guzzle\Http\Plugin\DataCollectorPlugin</parameter>
         <parameter key="guzzle.cache_adapter.class"></parameter>
         <parameter key="guzzle.cache.adapter.doctrine.class">Guzzle\Common\Cache\DoctrineCacheAdapter</parameter>
         <parameter key="guzzle.cache.adapter.zend.class">Guzzle\Common\Cache\ZendCacheAdapter</parameter>
@@ -18,6 +20,15 @@
         <service id="guzzle.service_builder" class="%guzzle.service_builder.class%" factory-class="%guzzle.service_builder.class%" factory-method="factory">
             <argument type="string" id="guzzle.service_builder.configuration_file">%guzzle.service_builder.configuration_file%</argument>
             <argument type="service" id="guzzle.cache.adapter" on-invalid="ignore" />
+            <call method="addPlugin">
+                <argument type="service" id="guzzle.plugin.data_collector" />
+            </call>
+        </service>
+        <service id="guzzle.data_collector" class="%guzzle.data_collector.class%" public="false">
+            <argument type="service" id="service_container" />
+
+        </service>
+        <service id="guzzle.plugin.data_collector" class="%guzzle.plugin.data_collector.class%">
         </service>
     </services>
 
