@@ -118,3 +118,9 @@ And add a Guzzle services configuration file. See the [Guzzle documentation](htt
     </clients>
 </guzzle>
 ```
+
+## License
+
+This bundle is under the MIT license. See the complete license in the bundle:
+
+    Resources/meta/LICENSE
