@@ -5,30 +5,58 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="guzzle.service_builder.class">Ddeboer\GuzzleBundle\Guzzle\Service\ServiceBuilder</parameter>
-        <parameter key="guzzle.service_builder_factory.class">Ddeboer\GuzzleBundle\ServiceBuilderFactory</parameter>
-        <parameter key="guzzle.data_collector.class">Ddeboer\GuzzleBundle\DataCollector\HttpDataCollector</parameter>
+        <parameter key="guzzle.service_builder.class">Guzzle\Service\Builder\ServiceBuilder</parameter>
+        <parameter key="guzzle.service_builder_factory.class">Guzzle\Service\Builder\ServiceBuilder</parameter>
+
+        <parameter key="guzzle.plugin.service_builder.class">Guzzle\Service\Plugin\PluginCollectionPlugin</parameter>
         <parameter key="guzzle.plugin.data_collector.class">Ddeboer\GuzzleBundle\Guzzle\Http\Plugin\DataCollectorPlugin</parameter>
+        <parameter key="guzzle.plugin.log.class">Guzzle\Http\Plugin\LogPlugin</parameter>
+        <parameter key="guzzle.plugin.log.monolog.adapter.class">Guzzle\Common\Log\MonologLogAdapter</parameter>
+        <parameter key="guzzle.plugin.log.array.adapter.class">Guzzle\Common\Log\ArrayLogAdapter</parameter>
+        <parameter key="guzzle.data_collector.class">Ddeboer\GuzzleBundle\DataCollector\HttpDataCollector</parameter>
+
         <parameter key="guzzle.cache_adapter.class"></parameter>
         <parameter key="guzzle.cache.adapter.doctrine.class">Guzzle\Common\Cache\DoctrineCacheAdapter</parameter>
-        <parameter key="guzzle.cache.adapter.zend.class">Guzzle\Common\Cache\ZendCacheAdapter</parameter>
+        <parameter key="guzzle.cache.adapter.zend.class">Guzzle\Common\Cache\Zf1CacheAdapter</parameter>
         <parameter key="guzzle.cache.driver.apc.class">Doctrine\Common\Cache\ApcCache</parameter>
         <parameter key="guzzle.cache.driver.array.class">Doctrine\Common\Cache\ArrayCache</parameter>
     </parameters>
 
     <services>
-        <service id="guzzle.service_builder" class="%guzzle.service_builder.class%" factory-class="%guzzle.service_builder.class%" factory-method="factory">
+        <service id="guzzle.service_builder" class="%guzzle.service_builder.class%" factory-class="%guzzle.service_builder_factory.class%" factory-method="factory">
             <argument type="string" id="guzzle.service_builder.configuration_file">%guzzle.service_builder.configuration_file%</argument>
             <argument type="service" id="guzzle.cache.adapter" on-invalid="ignore" />
-            <call method="addPlugin">
-                <argument type="service" id="guzzle.plugin.data_collector" />
+
+            <call method="addSubscriber">
+                <argument type="service" id="guzzle.plugin.service_builder" />
             </call>
         </service>
-        <service id="guzzle.data_collector" class="%guzzle.data_collector.class%" public="false">
-            <argument type="service" id="service_container" />
 
+        <service id="guzzle.plugin.service_builder" class="%guzzle.plugin.service_builder.class%" public="false">
+            <argument type="collection">
+                <argument type="service" id="guzzle.plugin.log.array" />
+                <argument type="service" id="guzzle.plugin.log.monolog" />
+            </argument>
         </service>
-        <service id="guzzle.plugin.data_collector" class="%guzzle.plugin.data_collector.class%">
+
+        <service id="guzzle.plugin.log.monolog" class="%guzzle.plugin.log.class%" public="false">
+            <argument type="service" id="guzzle.plugin.log.monolog.adapter" />
+        </service>
+
+        <service id="guzzle.plugin.log.array" class="%guzzle.plugin.log.class%" public="false">
+            <argument type="service" id="guzzle.plugin.log.array.adapter" />
+        </service>
+
+        <service id="guzzle.plugin.log.array.adapter" class="%guzzle.plugin.log.array.adapter.class%" public="false">
+        </service>
+
+        <service id="guzzle.plugin.log.monolog.adapter" class="%guzzle.plugin.log.monolog.adapter.class%" public="false">
+            <argument type="service" id="logger" on-invalid="null" />
+            <tag name="monolog.logger" channel="guzzle" />
+        </service>
+
+        <service id="guzzle.data_collector" class="%guzzle.data_collector.class%" public="false">
+            <argument type="service" id="guzzle.plugin.log.array.adapter" />
         </service>
     </services>
 

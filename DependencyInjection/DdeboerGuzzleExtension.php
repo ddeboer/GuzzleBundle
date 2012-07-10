@@ -28,8 +28,6 @@ class DdeboerGuzzleExtension extends Extension
                 $config['service_builder']['configuration_file']);
 
         if ($config['logging']) {
-            $serviceBuilder = $container->get('guzzle.service_builder');
-
             $container->findDefinition('guzzle.data_collector')->addTag('data_collector', array('template' => 'DdeboerGuzzleBundle:Collector:guzzle', 'id' => 'guzzle'));
         }
 
