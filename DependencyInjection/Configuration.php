@@ -29,7 +29,7 @@ class Configuration implements ConfigurationInterface
                     ->arrayNode('service_builder')
                         ->children()
                             ->scalarNode('class')
-                                ->defaultValue('Guzzle\Service\ServiceBuilder')
+                                ->defaultValue('Guzzle\Service\Builder\ServiceBuilder')
                             ->end()
                             ->scalarNode('configuration_file')
                                 ->defaultValue('%kernel.root_dir%/config/webservices.xml')

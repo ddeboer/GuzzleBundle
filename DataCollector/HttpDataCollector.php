@@ -14,7 +14,8 @@ namespace Ddeboer\GuzzleBundle\DataCollector;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+
+use Guzzle\Common\Log\LogAdapterInterface;
 
 /**
  * MessageDataCollector.
@@ -23,7 +24,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class HttpDataCollector extends DataCollector
 {
-    private $container;
+    protected $logAdapter;
 
     /**
      * Constructor.
@@ -31,11 +32,11 @@ class HttpDataCollector extends DataCollector
      * We don't inject the data collector plugin or guzzle here
      * to avoid the creation of these objects when no guzzle requests send.
      *
-     * @param ContainerInterface $container A ContainerInterface instance
+     * @param LogAdapterInterface $logAdapter The log adapter
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct($logAdapter)
     {
-        $this->container = $container;
+        $this->logAdapter = $logAdapter;
     }
 
     /**
@@ -43,25 +44,28 @@ class HttpDataCollector extends DataCollector
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
-        // only collect when Swiftmailer has already been initialized
-        if (class_exists('Guzzle\Guzzle', false)) {
-            $plugin = $this->container->get('guzzle.plugin.data_collector');
-            $this->data['messages']     = $plugin->getMessages();
-            $this->data['messageCount'] = $plugin->countMessages();
-        } else {
-            $this->data['messages']     = array();
-            $this->data['messageCount'] = 0;
-        }
+        $this->data['logs']     = $this->logAdapter->getLogs();
+        $this->data['logCount'] = count($this->data['logs']);
     }
 
-    public function getMessageCount()
+    /**
+     * Get the log entries
+     *
+     * @return array
+     */
+    public function getLogs()
     {
-        return $this->data['messageCount'];
+        return $this->data['logs'];
     }
 
-    public function getMessages()
+    /**
+     * Hom many log entries became logged
+     *
+     * @return integer
+     */
+    public function countLogs()
     {
-        return $this->data['messages'];
+        return $this->data['logCount'];
     }
 
     /**

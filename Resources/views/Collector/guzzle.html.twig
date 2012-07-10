@@ -1,12 +1,12 @@
 {% extends 'WebProfilerBundle:Profiler:layout.html.twig' %}
 
 {% block toolbar %}
-    {% if collector.messagecount %}
+    {% if collector.countLogs %}
         {% set icon %}
             Guzzle
         {% endset %}
         {% set text %}
-            <span title="{{ collector.messagecount }} messages">{{ collector.messagecount }}</span>
+            <span title="{{ collector.countLogs }} messages">{{ collector.countLogs }}</span>
         {% endset %}
         {% include 'WebProfilerBundle:Profiler:toolbar_item.html.twig' with { 'link': profiler_url } %}
     {% endif %}
@@ -17,7 +17,7 @@
     <span class="icon">&nbsp;</span>
     <strong>Guzzle</strong>
     <span class="count">
-        <span>{{ collector.messagecount }}</span>
+        <span>{{ collector.countLogs }}</span>
     </span>
 </span>
 {% endblock %}
@@ -25,22 +25,17 @@
 {% block panel %}
     <h2>Requests</h2>
 
-    {% if not collector.messages %}
+    {% if not collector.countLogs %}
         <p>
             <em>No requests sent.</em>
         </p>
     {% else %}
         <ul class="alt">
-            {% for i, message in collector.messages %}
+            {% for i, log in collector.logs %}
             <li class="{{ i is odd ? 'odd' : 'even' }}">
                 <div>
-                    <code>{{ message.scheme }} {{ message.host }}{{ message.uri }}</code>
+                    <code>{{ log.message }}</code>
                 </div>
-                <small>
-                    <strong>Method</strong>: {{ message.method }}<br />
-                    <strong>Parameters</strong>: {{ message.params|yaml_encode }}<br />
-                    <strong>Time</strong>: {{ '%0.2f'|format(message.executionMS * 1000) }} ms
-                </small>
             </li>
         {% endfor %}
     {% endif %}
