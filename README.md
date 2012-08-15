@@ -85,9 +85,33 @@ public function registerBundles()
 
 ``` yaml
 # app/config/config.yml
-ddeboer_guzzle: 
+ddeboer_guzzle:
     service_builder:
-        configuration_file: "%kernel.root_dir%/config/webservices.xml"
+        configuration:
+            aws:
+                params:
+                    access_key: 12345
+                    secret_key: abcd
+            s3:
+                class: Guzzle\Aws\S3\S3Client
+                extends: aws
+                params:
+                    subdomain: michael
+            unfuddle:
+                class: Guzzle\Unfuddle\UnfuddleClient
+                params:
+                    username: test-user
+                    password: test-password
+                    subdomain: test
+```
+
+Or
+
+``` yaml
+# app/config/config.yml
+ddeboer_guzzle:
+    service_builder:
+        configuration_file: %kernel.root_dir%/config/webservices.xml
 ```
 
 And add a Guzzle services configuration file. See the [Guzzle documentation](http://guzzlephp.org/tour/using_services.html#instantiating-web-service-clients-using-a-servicebuilder).
