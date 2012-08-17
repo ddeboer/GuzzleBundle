@@ -13,7 +13,10 @@ namespace Ddeboer\GuzzleBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
+
 use Ddeboer\GuzzleBundle\DependencyInjection\Compiler\GrabCommandsPass;
+
 
 class DdeboerGuzzleBundle extends Bundle
 {
@@ -24,6 +27,6 @@ class DdeboerGuzzleBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new GrabCommandsPass());
+        $container->addCompilerPass(new GrabCommandsPass(), PassConfig::TYPE_AFTER_REMOVING);
     }
 }
