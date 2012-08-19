@@ -7,6 +7,18 @@
     <parameters>
         <parameter key="guzzle.service_builder.class">Guzzle\Service\Builder\ServiceBuilder</parameter>
         <parameter key="guzzle.service_builder_factory.class">Guzzle\Service\Builder\ServiceBuilder</parameter>
+        <parameter key="guzzle.service_description.class">Guzzle\Service\Description\ServiceDescription</parameter>
+        <parameter key="guzzle.service_builder.configuration"></parameter>
+
+        <parameter key="guzzle.client.class">Ddeboer\GuzzleBundle\Client</parameter>
+        <parameter key="guzzle.client_builder.class">Ddeboer\GuzzleBundle\Builder\ClientBuilder</parameter>
+        <parameter key="guzzle.clients"></parameter>
+        <parameter key="guzzle.client_builder.config"></parameter>
+
+        <parameter key="guzzle.command.api.class">Guzzle\Service\Description\ApiCommand</parameter>
+        <parameter key="guzzle.command_builder.class">Ddeboer\GuzzleBundle\Builder\CommandBuilder</parameter>
+
+        <parameter key="guzzle.inspector.class">Ddeboer\GuzzleBundle\Inspector</parameter>
 
         <parameter key="guzzle.plugin.service_builder.class">Guzzle\Service\Plugin\PluginCollectionPlugin</parameter>
         <parameter key="guzzle.plugin.data_collector.class">Ddeboer\GuzzleBundle\Guzzle\Http\Plugin\DataCollectorPlugin</parameter>
@@ -23,8 +35,25 @@
     </parameters>
 
     <services>
+
+        <service id="guzzle.inspector" class="%guzzle.inspector.class%">
+        </service>
+
+        <service id="guzzle.client_builder" class="%guzzle.client_builder.class%">
+            <argument type="string">%guzzle.client.class%</argument>
+            <argument type="string">%guzzle.service_description.class%</argument>
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="guzzle.inspector"/>
+            <argument type="collection">%guzzle.clients%</argument>
+            <argument type="collection">%guzzle.client_builder.config%</argument>
+        </service>
+
+        <service id="guzzle.command_builder" class="%guzzle.command_builder.class%">
+        </service>
+
+
         <service id="guzzle.service_builder" class="%guzzle.service_builder.class%" factory-class="%guzzle.service_builder_factory.class%" factory-method="factory">
-            <argument type="string" id="guzzle.service_builder.configuration_file">%guzzle.service_builder.configuration_file%</argument>
+            <argument id="guzzle.service_builder.configuration">%guzzle.service_builder.configuration%</argument>
 
             <call method="addSubscriber">
                 <argument type="service" id="guzzle.plugin.service_builder" />
