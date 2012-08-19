@@ -9,6 +9,7 @@ use Millwright\ConfigurationBundle\ContainerUtil as Util;
 use Millwright\ConfigurationBundle\PhpUtil;
 
 use Ddeboer\GuzzleBundle\DependencyInjection\CommandConfiguration;
+use Guzzle\Service\Inspector;
 
 /**
  * FormCompilerPass
@@ -24,38 +25,29 @@ class GrabCommandsPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
+        $definitions = Util::getDefinitionsByTag('guzzle_type', $container);
+
+        $inspector = $container->getDefinition('guzzle.inspector');
+
+        foreach ($definitions as $name => $definition) {
+            $properties = $definition->getProperties();
+            $inspector->addMethodCall('setConstraint', array(
+                $name,
+                $definition,
+                $properties
+            ));
+        }
+
         $definitionGroups = Util::getDefinitionsByTag('guzzle_command', $container, true);
 
         $result = array();
         foreach ($definitionGroups as $clientId => $definitions) {
             foreach ($definitions as $definition) {
                 $args = $definition->getArguments();
-                $result[$clientId][$args[0]['name']] = $definition;
+                $result[$clientId][$args['name']] = $definition;
             }
         }
 
-
-        return $container->getDefinition('guzzle.client_builder')->replaceArgument(2, $result);
-
-        /*
-        $normalizer = function(array &$config, Processor $processor, ContainerBuilder $container)
-        {
-            $conf = array('guzzle' => array('clients' => $config));
-            $config = $processor->processConfiguration(new CommandConfiguration, $conf);
-        };
-
-
-        $configs = Util::collectConfiguration('guzzle_command', $container, $normalizer);
-
-        $appConfigs = $container->getParameter('guzzle.clients');
-        if (!$appConfigs) {
-            $appConfigs = array();
-        }
-
-        $config = PhpUtil::merge($configs, $appConfigs);
-
-        $container->getDefinition('guzzle.client_builder')
-            ->replaceArgument(2, $config['clients']);
-        */
+        $container->getDefinition('guzzle.client_builder')->replaceArgument(4, $result);
     }
 }

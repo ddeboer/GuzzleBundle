@@ -27,6 +27,6 @@ class DdeboerGuzzleBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new GrabCommandsPass(), PassConfig::TYPE_AFTER_REMOVING);
+        $container->addCompilerPass(new GrabCommandsPass());
     }
 }

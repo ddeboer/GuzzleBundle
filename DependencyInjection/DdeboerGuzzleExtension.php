@@ -18,6 +18,7 @@ class DdeboerGuzzleExtension extends Extension
             new FileLocator(__DIR__.'/../Resources/config')
         );
         $loader->load('services.xml');
+        $loader->load('validators.xml');
 
         $processor = new Processor();
         $configuration = new Configuration($container->getParameter('kernel.debug'));

@@ -1,9 +1,14 @@
 <?php
 namespace Ddeboer\GuzzleBundle\Builder;
 
-use Guzzle\Service\Client;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
+use Ddeboer\GuzzleBundle\Client;
 use Guzzle\Service\Description\ServiceDescription;
 use Guzzle\Service\Description\ApiCommand;
+
+use Ddeboer\GuzzleBundle\Inspector;
+
 /**
  * Client builder factory
  */
@@ -14,23 +19,31 @@ class ClientBuilder
 
     protected $commands;
     protected $config;
+    protected $dispatcher;
+    protected $inspector;
 
     /**
      * Constructor
      *
-     * @param string $clientClass
-     * @param string $descriptionClass
-     * @param ApiCommand[]  $commands
-     * @param array  $config
+     * @param string                   $clientClass
+     * @param string                   $descriptionClass
+     * @param EventDispatcherInterface $dispatcher
+     * @param Inspector                $inspector
+     * @param ApiCommand[]             $commands
+     * @param array                    $config
      */
     public function __construct(
         $clientClass,
         $descriptionClass,
+        EventDispatcherInterface $dispatcher,
+        Inspector $inspector,
         array $commands,
         array $config = array()
     ) {
         $this->clientClass      = $clientClass;
         $this->descriptionClass = $descriptionClass;
+        $this->dispatcher       = $dispatcher;
+        $this->inspector        = $inspector;
         $this->commands         = $commands;
         $this->config           = $config;
     }
@@ -53,6 +66,8 @@ class ClientBuilder
             'username' => $username,
             'password' => $password
         )));
+        $client->setEventDispatcher($this->dispatcher);
+        $client->setInspector($this->inspector);
 
         /** @var $serviceDescription ServiceDescription */
         $commands = $this->commands[$clientId];

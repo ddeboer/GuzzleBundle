@@ -1,0 +1,108 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="guzzle.validation.blank" class="Guzzle\Common\Validation\Blank" public="false">
+            <tag name="guzzle_type" type="blank" />
+        </service>
+
+        <service id="guzzle.validation.not_blank" class="Guzzle\Common\Validation\NotBlank" public="false">
+            <tag name="guzzle_type" type="not_blank" />
+        </service>
+
+        <service id="guzzle.validation.integer" class="Guzzle\Common\Validation\Numeric" public="false">
+            <tag name="guzzle_type" type="integer" />
+        </service>
+
+        <service id="guzzle.validation.float" class="Guzzle\Common\Validation\Numeric" public="false">
+            <tag name="guzzle_type" type="float" />
+        </service>
+
+        <service id="guzzle.validation.string" class="Guzzle\Common\Validation\Type" public="false">
+            <tag name="guzzle_type" type="string" />
+            <property name="type">string</property>
+        </service>
+
+        <service id="guzzle.validation.file" class="Guzzle\Common\Validation\Type" public="false">
+            <tag name="guzzle_type" type="file" />
+            <property name="type">file</property>
+        </service>
+
+        <service id="guzzle.validation.array" class="Guzzle\Common\Validation\Type" public="false">
+            <tag name="guzzle_type" type="array" />
+            <property name="type">array</property>
+        </service>
+
+        <service id="guzzle.validation.bool" class="Guzzle\Common\Validation\Bool" public="false">
+            <tag name="guzzle_type" type="bool" />
+        </service>
+
+        <service id="guzzle.validation.boolean" class="Guzzle\Common\Validation\Bool" public="false">
+            <tag name="guzzle_type" type="boolean" />
+        </service>
+
+        <service id="guzzle.validation.email" class="Guzzle\Common\Validation\Email" public="false">
+            <tag name="guzzle_type" type="email" />
+        </service>
+
+        <service id="guzzle.validation.ip" class="Guzzle\Common\Validation\Ip" public="false">
+            <tag name="guzzle_type" type="ip" />
+        </service>
+
+        <service id="guzzle.validation.ip" class="Guzzle\Common\Validation\Ip" public="false">
+            <tag name="guzzle_type" type="ip" />
+        </service>
+
+        <service id="guzzle.validation.url" class="Guzzle\Common\Validation\Url" public="false">
+            <tag name="guzzle_type" type="url" />
+        </service>
+
+        <service id="guzzle.validation.class" class="Guzzle\Common\Validation\IsInstanceOf" public="false">
+            <tag name="guzzle_type" type="class" />
+        </service>
+
+        <service id="guzzle.validation.type" class="Guzzle\Common\Validation\Type" public="false">
+            <tag name="guzzle_type" type="type" />
+        </service>
+
+        <service id="guzzle.validation.any_match" class="Guzzle\Common\Validation\AnyMatch" public="false">
+            <tag name="guzzle_type" type="any_match" />
+        </service>
+
+        <service id="guzzle.validation.ctype" class="Guzzle\Common\Validation\Ctype" public="false">
+            <tag name="guzzle_type" type="ctype" />
+        </service>
+
+        <service id="guzzle.validation.choice" class="Guzzle\Common\Validation\Choice" public="false">
+            <tag name="guzzle_type" type="choice" />
+        </service>
+
+        <service id="guzzle.validation.enum" class="Guzzle\Common\Validation\Choice" public="false">
+            <tag name="guzzle_type" type="enum" />
+        </service>
+
+        <service id="guzzle.validation.regex" class="Guzzle\Common\Validation\Regex" public="false">
+            <tag name="guzzle_type" type="regex" />
+        </service>
+
+        <service id="guzzle.validation.date" class="Guzzle\Common\Validation\Type" public="false">
+            <tag name="guzzle_type" type="date" />
+            <property name="type">string</property>
+        </service>
+
+        <service id="guzzle.validation.date_type" class="Guzzle\Common\Validation\Type" public="false">
+            <tag name="guzzle_type" type="date_type" />
+            <property name="type">string</property>
+        </service>
+
+        <service id="guzzle.validation.time" class="Guzzle\Common\Validation\Numeric" public="false">
+            <tag name="guzzle_type" type="time" />
+            <property name="type">string</property>
+        </service>
+    </services>
+
+</container>
