@@ -18,8 +18,8 @@
 {% endblock %}
 
 {% block menu %}
-<span class="label">
-    <span class="icon">&nbsp;</span>
+    <span class="label">
+    <span class="icon"><img src="{{ asset('bundles/ddeboerguzzle/images/profiler/guzzle.png') }}" alt=""/></span>
     <strong>Guzzle</strong>
     <span class="count">
         <span>{{ collector.countLogs }}</span>
@@ -28,7 +28,7 @@
 {% endblock %}
 
 {% block panel %}
-    <h2>Requests</h2>
+    <h2>HTTP requests</h2>
 
     {% if not collector.countLogs %}
         <p>
@@ -36,12 +36,40 @@
         </p>
     {% else %}
         <ul class="alt">
-            {% for i, log in collector.logs %}
-            <li class="{{ i is odd ? 'odd' : 'even' }}">
+        {% for i, log in collector.logs %}
+            <li class="{{ i is odd ? 'odd' : 'even' }} {% if log.extras.response.isError %}error{% endif %}">
                 <div>
-                    <code>{{ log.message }}</code>
+                    <a href="#" onclick="return explain(this);" style="text-decoration: none;" title="Explains" data-target-id="explain-{{ i }}">
+                        <img alt="+" src="{{ asset('bundles/framework/images/blue_picto_more.gif') }}" style="display: inline;"/>
+                        <img alt="-" src="{{ asset('bundles/framework/images/blue_picto_less.gif') }}" style="display: none;"/>
+                    </a>
+                    <code>{{ log.extras.request.method }} {{ log.extras.request.url }}</code>
+                </div>
+                <small>
+                    <strong>Response</strong>: {{ log.extras.response.statusCode }} {{ log.extras.response.reasonPhrase }}
+                    <br><strong>Time</strong>: {{ log.extras.response.getInfo('total_time')*1000 }} ms
+                    {% if log.extras.response.getInfo('redirect_count') > 0 %}
+                        <br><strong>Redirects:</strong> {{ log.extras.response.getInfo('redirect_count') }}
+                    {% endif %}
+                </small>
+
+                <div id="explain-{{ i }}" style="display:none; padding-top: 1em;">
+                    <pre style="white-space: pre-wrap; white-space: -moz-pre-wrap !important; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;">{{ log.message }}</pre>
                 </div>
             </li>
         {% endfor %}
     {% endif %}
+
+    <script type="text/javascript">//<![CDATA[
+    function explain(link) {
+        "use strict";
+
+        var imgs = link.children,
+            target = link.getAttribute('data-target-id');
+
+        Sfjs.toggle(target, imgs[0], imgs[1]);
+
+        return false;
+    }
+    //]]></script>
 {% endblock %}
