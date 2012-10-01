@@ -44,6 +44,7 @@
 
         <service id="guzzle.plugin.log.array" class="%guzzle.plugin.log.class%" public="false">
             <argument type="service" id="guzzle.plugin.log.array.adapter" />
+            <argument type="string">15</argument>
         </service>
 
         <service id="guzzle.plugin.log.array.adapter" class="%guzzle.plugin.log.array.adapter.class%" public="false">
