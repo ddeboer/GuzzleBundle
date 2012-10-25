@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-use Guzzle\Common\Log\LogAdapterInterface;
+use Guzzle\Log\LogAdapterInterface;
 
 /**
  * MessageDataCollector.
