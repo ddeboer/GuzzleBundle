@@ -16,8 +16,8 @@
         <parameter key="guzzle.data_collector.class">Ddeboer\GuzzleBundle\DataCollector\HttpDataCollector</parameter>
 
         <parameter key="guzzle.cache_adapter.class"></parameter>
-        <parameter key="guzzle.cache.adapter.doctrine.class">Guzzle\Common\Cache\DoctrineCacheAdapter</parameter>
-        <parameter key="guzzle.cache.adapter.zend.class">Guzzle\Common\Cache\Zf1CacheAdapter</parameter>
+        <parameter key="guzzle.cache.adapter.doctrine.class">Guzzle\Cache\DoctrineCacheAdapter</parameter>
+        <parameter key="guzzle.cache.adapter.zend.class">Guzzle\Cache\Zf1CacheAdapter</parameter>
         <parameter key="guzzle.cache.driver.apc.class">Doctrine\Common\Cache\ApcCache</parameter>
         <parameter key="guzzle.cache.driver.array.class">Doctrine\Common\Cache\ArrayCache</parameter>
     </parameters>
