@@ -103,7 +103,7 @@ And add a Guzzle services configuration file. See the [Guzzle documentation](htt
             <param name="secret_key" value="abcd" />
         </client>
         <!-- Amazon S3 client that extends the abstract client -->
-        <client name="s3" classs="Guzzle.Aws.S3.S3Client" extends="abstract.aws">
+        <client name="s3" class="Guzzle.Aws.S3.S3Client" extends="abstract.aws">
             <param name="devpay_product_token" value="XYZ" />
             <param name="devpay_user_token" value="123" />
         </client>
