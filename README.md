@@ -28,6 +28,7 @@ Add the following lines in your `deps` file:
 [guzzle]
     git=git://github.com/guzzle/guzzle.git
     target=guzzle
+    version=v2.8.8
 
 [DdeboerGuzzleBundle]
     git=git://github.com/ddeboer/GuzzleBundle.git
